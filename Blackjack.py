@@ -68,6 +68,7 @@ def rozdanieKartDlaKrupiera(kartyKrupiera, dostepneKartyWTalii):
         dostepneKartyWTalii.remove(wylosowanaKarta)
     return kartyKrupiera
 
+
 #ZLICZNIE PUNKTOW KART
 def punktyGracza(kartyGracza, wartosci):
     punkty = 0
@@ -90,3 +91,28 @@ print(punktyKrupiera(rozdanieKartDlaKrupiera(kartyKrupiera, dostepneKartyWTalii)
 
 print("Karty gracza:", kartyGracza, "=> punkty:", punktyGracza(kartyGracza, wartosci))
 print("Karty krupiera:", [kartyKrupiera[0], "??"], "punkty:", punktyKrupiera([kartyKrupiera[0]], wartosci)) # tylko 1 karta widoczna
+
+
+#DOBIERANIE KART PRZEZ GRACZA
+while True:
+    decyzja = input("Dobierasz kartę (h) czy pasujesz (s)? ")
+    if decyzja == "h":
+        wylosowanaKarta = dostepneKartyWTalii[random.randint(0, len(dostepneKartyWTalii) - 1)]
+        kartyGracza.append(wylosowanaKarta)
+        dostepneKartyWTalii.remove(wylosowanaKarta)
+        print("Karty gracza:", kartyGracza, "=> punkty:", punktyGracza(kartyGracza, wartosci))
+        if punktyGracza(kartyGracza, wartosci) == 21:
+            break
+        elif punktyGracza(kartyGracza, wartosci) > 21:
+            print("BUST! Moze nastepnym razem sie uda. ")
+            break
+        else:
+            continue
+    elif decyzja == "s":
+        #konczymy ture i patrzymi, kto wygral
+        print("Spasowales! Teraz kolej krupiera. ")
+        break
+    else:
+        print("Blad! Wpisz 'h' albo 's'. ")
+
+    
