@@ -116,3 +116,64 @@ while True:
         print("Blad! Wpisz 'h' albo 's'. ")
 
     
+wygranaGracza = False
+wygranaKrupiera = False
+
+# def sprawdzaniePunktowKart(punktyKartKrupiera, punktyKartGracza):
+#     if punktyKartKrupiera < punktyKartGracza:
+#         wygranaGracza = True
+#         print("Gracz wygrywa! ")
+#         return wygranaGracza
+#     elif punktyKartKrupiera > punktyKartGracza:
+#         wygranaKrupiera = True
+#         print("Krupier wygrywa! ")
+#         return wygranaKrupiera
+#     elif punktyKartKrupiera == punktyKartGracza:
+#         print("Remis! ")
+#         pass
+
+
+# DOBIERANIE KART PRZEZ KRUPIERA
+punktyKartKrupiera = punktyKrupiera(kartyKrupiera, wartosci)
+while True:
+    print("Karty krupiera:", kartyKrupiera, "punkty:", punktyKrupiera(kartyKrupiera, wartosci))
+    if punktyKrupiera(kartyKrupiera, wartosci) < 17:
+        wylosowanaKarta = dostepneKartyWTalii[random.randint(0, len(dostepneKartyWTalii) - 1)]
+        kartyKrupiera.append(wylosowanaKarta)
+        dostepneKartyWTalii.remove(wylosowanaKarta)
+        print("Karty krupiera:", kartyKrupiera, "=> punkty:", punktyKrupiera(kartyKrupiera, wartosci))
+        if punktyKrupiera(kartyKrupiera, wartosci) > 21:
+            print("Dealer BUST! GRACZ WYGRYWA! ")
+            wygranaGracza = True
+            break
+        elif punktyKrupiera(kartyKrupiera, wartosci) == 21 and punktyGracza(kartyGracza, wartosci) == 21:
+            print("Remis! ")
+            break
+        elif punktyKrupiera(kartyKrupiera, wartosci) >= 17 and punktyKrupiera(kartyKrupiera, wartosci) < 21:
+            if punktyKrupiera(kartyKrupiera, wartosci) < punktyGracza(kartyGracza, wartosci):
+                wygranaGracza = True
+                print("Gracz wygrywa! ")
+                break
+            elif punktyKrupiera(kartyKrupiera, wartosci) > punktyGracza(kartyGracza, wartosci):
+                wygranaKrupiera = True
+                print("Krupier wygrywa! ")
+                break
+            elif punktyKrupiera(kartyKrupiera, wartosci) == punktyGracza(kartyGracza, wartosci):
+                print("Remis! ")
+                break
+        else:
+            continue
+    else:
+        if punktyKrupiera(kartyKrupiera, wartosci) < punktyGracza(kartyGracza, wartosci):
+            wygranaGracza = True
+            print("Gracz wygrywa! ")
+            break
+        elif punktyKrupiera(kartyKrupiera, wartosci) > punktyGracza(kartyGracza, wartosci):
+            wygranaKrupiera = True
+            print("Krupier wygrywa! ")
+            break
+        elif punktyKrupiera(kartyKrupiera, wartosci) == punktyGracza(kartyGracza, wartosci):
+            print("Remis! ")
+            break
+
+print("Koniec")
