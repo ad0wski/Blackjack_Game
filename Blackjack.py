@@ -35,9 +35,6 @@ wartosci = {
     "J": 10, "Q": 10, "K": 10, "A": 11  # lub 1 w zależności od sytuacji
 }
 
-
-# zakladGracza = float(input("Za ile wchodzisz do gry? "))
-
 znaki = ["♥️", "♦️", "♠️", "♣️"]
 liczby = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"]
 
@@ -49,6 +46,11 @@ def dobierz_karte(znaki, liczby):
 
 kartyGracza = []
 kartyKrupiera = []
+
+dostepneKartyWTalii = ["2♥️", "3♥️", "4♥️", "5♥️", "6♥️", "7♥️", "8♥️", "9♥️", "10♥️", "J♥️", "Q♥️", "K♥️", "A♥️", 
+                       "2♦️", "3♦️", "4♦️", "5♦️", "6♦️", "7♦️", "8♦️", "9♦️", "10♦️", "J♦️", "Q♦️", "K♦️", "A♦️"
+                       "2♠️", "3♠️", "4♠️", "5♠️", "6♠️", "7♠️", "8♠️", "9♠️", "10♠️", "J♠️", "Q♠️", "K♠️", "A♠️"
+                       "2♣️", "3♣️", "4♣️", "5♣️", "6♣️", "7♣️", "8♣️", "9♣️", "10♣️", "J♣️", "Q♣️", "K♣️", "A♣️"]
 
 #ROZDANIE KART
 def rozdanieKartDlaGracza(kartyGracza):
@@ -80,4 +82,8 @@ def punktyKrupiera(kartyKrupiera, wartosci):
         punkty += wartosci[wartoscKarty]
     return punkty
 
-print(punktyKrupiera(rozdanieKartDlaKrupiera(kartyGracza), wartosci))
+print(punktyKrupiera(rozdanieKartDlaKrupiera(kartyKrupiera), wartosci))
+
+
+print("Karty gracza:", kartyGracza, "=> punkty:", punktyGracza(kartyGracza, wartosci))
+print("Karty krupiera:", [kartyKrupiera[0], "??"], "punkty:", punktyKrupiera([kartyKrupiera[0]], wartosci)) # tylko 1 karta widoczna
