@@ -23,46 +23,49 @@ Wygrywa ten, kto jest bliżej 21, bez przekroczenia tej wartości.
 Powodzenia! 🍀"""
 # print(zasady)
 
-taliaKart = {
-    "♥️": ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"],
-    "♦️": ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"],
-    "♠️": ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"],
-    "♣️": ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"]
-}
+# taliaKart = {
+#     "♥️": ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"],
+#     "♦️": ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"],
+#     "♠️": ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"],
+#     "♣️": ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"]
+# }
 
 wartosci = {
     "2": 2, "3": 3, "4": 4, "5": 5, "6": 6, "7": 7, "8": 8, "9": 9, "10": 10,
     "J": 10, "Q": 10, "K": 10, "A": 11  # lub 1 w zależności od sytuacji
 }
 
-znaki = ["♥️", "♦️", "♠️", "♣️"]
-liczby = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"]
+# znaki = ["♥️", "♦️", "♠️", "♣️"]
+# liczby = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"]
 
-def dobierz_karte(znaki, liczby):
-    losowyKolor = znaki[random.randint(0, 3)]
-    losowaWartosc = liczby[random.randint(0, 12)]
-    karta = losowaWartosc + losowyKolor
-    return karta
+# def dobierz_karte(znaki, liczby):
+#     losowyKolor = znaki[random.randint(0, 3)]
+#     losowaWartosc = liczby[random.randint(0, 12)]
+#     karta = losowaWartosc + losowyKolor
+#     return karta
 
 kartyGracza = []
 kartyKrupiera = []
 
 dostepneKartyWTalii = ["2♥️", "3♥️", "4♥️", "5♥️", "6♥️", "7♥️", "8♥️", "9♥️", "10♥️", "J♥️", "Q♥️", "K♥️", "A♥️", 
-                       "2♦️", "3♦️", "4♦️", "5♦️", "6♦️", "7♦️", "8♦️", "9♦️", "10♦️", "J♦️", "Q♦️", "K♦️", "A♦️"
-                       "2♠️", "3♠️", "4♠️", "5♠️", "6♠️", "7♠️", "8♠️", "9♠️", "10♠️", "J♠️", "Q♠️", "K♠️", "A♠️"
+                       "2♦️", "3♦️", "4♦️", "5♦️", "6♦️", "7♦️", "8♦️", "9♦️", "10♦️", "J♦️", "Q♦️", "K♦️", "A♦️",
+                       "2♠️", "3♠️", "4♠️", "5♠️", "6♠️", "7♠️", "8♠️", "9♠️", "10♠️", "J♠️", "Q♠️", "K♠️", "A♠️",
                        "2♣️", "3♣️", "4♣️", "5♣️", "6♣️", "7♣️", "8♣️", "9♣️", "10♣️", "J♣️", "Q♣️", "K♣️", "A♣️"]
 
+
 #ROZDANIE KART
-def rozdanieKartDlaGracza(kartyGracza):
+def rozdanieKartDlaGracza(kartyGracza, dostepneKartyWTalii):
     for i in range(2):
-        wylosowanaKarta = dobierz_karte(znaki, liczby)
+        wylosowanaKarta = dostepneKartyWTalii[random.randint(0, len(dostepneKartyWTalii) - 1)]
         kartyGracza.append(wylosowanaKarta)
+        dostepneKartyWTalii.remove(wylosowanaKarta)
     return kartyGracza
 
-def rozdanieKartDlaKrupiera(kartyKrupiera):
+def rozdanieKartDlaKrupiera(kartyKrupiera, dostepneKartyWTalii):
     for i in range(2):
-        wylosowanaKarta = dobierz_karte(znaki, liczby)
+        wylosowanaKarta = dostepneKartyWTalii[random.randint(0, len(dostepneKartyWTalii) - 1)]
         kartyKrupiera.append(wylosowanaKarta)
+        dostepneKartyWTalii.remove(wylosowanaKarta)
     return kartyKrupiera
 
 #ZLICZNIE PUNKTOW KART
@@ -73,7 +76,7 @@ def punktyGracza(kartyGracza, wartosci):
         punkty += wartosci[wartoscKarty]
     return punkty
 
-print(punktyGracza(rozdanieKartDlaGracza(kartyGracza), wartosci))
+print(punktyGracza(rozdanieKartDlaGracza(kartyGracza, dostepneKartyWTalii), wartosci))
 
 def punktyKrupiera(kartyKrupiera, wartosci):
     punkty = 0
@@ -82,7 +85,7 @@ def punktyKrupiera(kartyKrupiera, wartosci):
         punkty += wartosci[wartoscKarty]
     return punkty
 
-print(punktyKrupiera(rozdanieKartDlaKrupiera(kartyKrupiera), wartosci))
+print(punktyKrupiera(rozdanieKartDlaKrupiera(kartyKrupiera, dostepneKartyWTalii), wartosci))
 
 
 print("Karty gracza:", kartyGracza, "=> punkty:", punktyGracza(kartyGracza, wartosci))
