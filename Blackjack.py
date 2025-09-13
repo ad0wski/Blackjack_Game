@@ -1,30 +1,43 @@
 import random
 
 #ZASADY
-zasady = """\nWitaj w Blackjacku!
-Zasady gry:
+zasady = """\nZASADY GRY W BLACKJACK 🃏
 
-Celem jest uzyskanie sumy kart jak najbliższej 21, ale jej nie przekroczyć.
+🎯 Cel:
+Zdobądź sumę kart jak najbliższą 21, ale nie przekrocz tej wartości. 
 
-Figury (J, Q, K) są warte 10 punktów, As może być za 1 lub 11.
+🂡 Wartości kart:
+- 2–10 → zgodnie z numerem
+- J, Q, K → 10 punktów
+- A → 1 lub 11 (w zależności od sytuacji)
 
-Na początku dostajesz 2 karty, krupier również.
+🤵 Rozdanie:
+- Na start Ty i krupier dostajecie po 2 karty.
+- Twoje karty są widoczne.
+- Krupier pokazuje tylko jedną ze swoich kart.
 
-Możesz:
+✋ Twoje opcje:
+- (Hit) Dobierz kartę, aby zwiększyć wynik.
+- (Stand) Pasuj i zakończ swoją turę.
 
-dobierać (hit), aby dostać nową kartę,
+🎲 Krupier:
+- Dobiera karty, dopóki nie ma co najmniej 17 punktów.
+- Jeśli przekroczy 21 → przegrywa automatycznie.
 
-pasować (stand), aby zakończyć dobieranie.
+💰 Zakłady:
+- Przed każdą grą stawiasz żetony.
+- Wygrana = otrzymujesz tyle, ile postawiłeś.
+- Przegrana = tracisz postawione żetony.
+- Remis = zakład wraca do Ciebie.
 
-Krupier dobiera karty, dopóki nie osiągnie co najmniej 17 punktów.
+🏆 Zwycięzca:
+Wygrywa ten, kto jest bliżej 21 (ale ≤ 21).  
 
-Wygrywa ten, kto jest bliżej 21, bez przekroczenia tej wartości.
-
-Powodzenia! 🍀"""
+Powodzenia! 🍀   """
 
 print(zasady)
 
-def gra():
+def gra(zetony):
     wartosci = {
         "2": 2, "3": 3, "4": 4, "5": 5, "6": 6, "7": 7, "8": 8, "9": 9, "10": 10,
         "J": 10, "Q": 10, "K": 10, "A": 11  # lub 1 w zależności od sytuacji
@@ -38,6 +51,9 @@ def gra():
                         "2♠️", "3♠️", "4♠️", "5♠️", "6♠️", "7♠️", "8♠️", "9♠️", "10♠️", "J♠️", "Q♠️", "K♠️", "A♠️",
                         "2♣️", "3♣️", "4♣️", "5♣️", "6♣️", "7♣️", "8♣️", "9♣️", "10♣️", "J♣️", "Q♣️", "K♣️", "A♣️"]
 
+    zaklad = int(input(f"\nMasz {zetony} żetonów. Ile chcesz postawić? "))
+    while zaklad > zetony or zaklad <= 0:
+        zaklad = int(input("Nieprawidlowa kwota zetonow. Podaj zaklad ponownie: "))
 
     #ROZDANIE KART
     def rozdanieKartDlaGracza(kartyGracza, dostepneKartyWTalii):
@@ -83,7 +99,7 @@ def gra():
     punktyKartGracza = policz_punkty(kartyGracza, wartosci)
     czyGraczPrzegral = False
     while True:
-        decyzja = input("Dobierasz kartę (h) czy pasujesz (s)? ")
+        decyzja = input("Dobierasz kartę (h) czy pasujesz (s)? ".lower())
         if decyzja == "h":
             wylosowanaKarta = dostepneKartyWTalii[random.randint(0, len(dostepneKartyWTalii) - 1)]
             kartyGracza.append(wylosowanaKarta)
@@ -94,6 +110,7 @@ def gra():
                 break
             elif punktyKartGracza > 21:
                 print("\nKrupier wygrywa! (gracz bust)")
+                zetony -= zaklad
                 czyGraczPrzegral = True
                 break
             else:
@@ -116,6 +133,7 @@ def gra():
                 print("Karty krupiera:", kartyKrupiera, "=> punkty:", policz_punkty(kartyKrupiera, wartosci))
                 if policz_punkty(kartyKrupiera, wartosci) > 21:
                     print("\nGracz wygrywa! (krupier bust) ")
+                    zetony += zaklad
                     break
                 elif policz_punkty(kartyKrupiera, wartosci) == 21 and punktyKartGracza == 21:
                     print("\nRemis! ")
@@ -123,9 +141,11 @@ def gra():
                 elif policz_punkty(kartyKrupiera, wartosci) >= 17 and policz_punkty(kartyKrupiera, wartosci) < 21:
                     if policz_punkty(kartyKrupiera, wartosci) < punktyKartGracza:
                         print("\nGracz wygrywa! ")
+                        zetony += zaklad
                         break
                     elif policz_punkty(kartyKrupiera, wartosci) > punktyKartGracza:
                         print("\nKrupier wygrywa! ")
+                        zetony -= zaklad
                         break
                     elif policz_punkty(kartyKrupiera, wartosci) == punktyKartGracza:
                         print("\nRemis! ")
@@ -135,21 +155,30 @@ def gra():
             else:
                 if policz_punkty(kartyKrupiera, wartosci) < punktyKartGracza:
                     print("\nGracz wygrywa! ")
+                    zetony += zaklad
                     break
                 elif policz_punkty(kartyKrupiera, wartosci) > punktyKartGracza:
                     print("\nKrupier wygrywa! ")
+                    zetony -= zaklad
                     break
                 elif policz_punkty(kartyKrupiera, wartosci) == punktyKartGracza:
                     print("\nRemis! ")
                     break
 
     print("\n-------------------- KONIEC GRY --------------------\n")
-    pass
+    return zetony
 
+zetony = 1000
 
 while True:
-    gra()
-    koniecGry = input("Czy chcesz zakonczyc gre? (y / n): ".lower())
-    if koniecGry == "y":
-        print("Dzięki za grę! Do zobaczenia :)")
+    zetony = gra(zetony)
+    if zetony <= 0:
+        print("Przegrales wszystkie pieniadze!\n ")
         break
+    
+    print(f"Masz {zetony} zetonow. ")
+    koniecGry = input("Czy chcesz zakonczyc gre? (y / n): ").lower()
+    if koniecGry == "y":
+        print(f"Dzięki za grę! Skonczyles z {zetony} zetonami. Do zobaczenia :)\n")
+        break
+    
